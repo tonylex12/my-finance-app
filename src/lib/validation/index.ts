@@ -9,3 +9,11 @@ export const SignUpValidation = z.object({
     .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })
     .max(50),
 });
+
+export const SignInValidation = z.object({
+  email: z.string().email({ message: "El correo electronico no es valido" }),
+  password: z
+    .string()
+    .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })
+    .max(50),
+});

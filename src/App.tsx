@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import "./globals.css";
 import SignInForm from "./_auth/forms/SignInForm";
-import { Home } from "./_root/pages";
+import { Dashboard, NewTransaction, Incomes, Expenses } from "./_root/pages";
 import SignUpForm from "./_auth/forms/SignUpForm";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
+import { Toaster } from "@/components/ui/toaster";
 
 const App = () => {
   return (
@@ -18,9 +19,14 @@ const App = () => {
 
         {/* Private routes */}
         <Route element={<RootLayout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Dashboard />} />
+          <Route path="/incomes" element={<Incomes />} />
+          <Route path="/expenses" element={<Expenses />} />
+          <Route path="/new-transaction" element={<NewTransaction />} />
         </Route>
       </Routes>
+
+      <Toaster />
     </main>
   );
 };
