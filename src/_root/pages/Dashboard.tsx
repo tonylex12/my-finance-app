@@ -4,6 +4,7 @@ import { Models } from "appwrite";
 import LoaderTwo from "@/components/shared/LoaderTwo";
 import TransactionsTable from "@/components/TransactionsTable";
 import Summary from "@/components/Summary";
+import IncomeExpenseChart from "@/components/IncomeExpenseChart";
 
 const Dashboard = () => {
   const {
@@ -21,6 +22,7 @@ const Dashboard = () => {
           ) : transactions ? (
             <>
               <Summary transactions={transactions} />
+              <IncomeExpenseChart transactions={transactions} />
               <TransactionsTable transactions={transactions} />
             </>
           ) : (
