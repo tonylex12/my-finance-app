@@ -23,6 +23,16 @@ export type INewTransaction = {
   userId: string;
   date: Date;
   amount: number;
-  categoryId: string;
-  type: "income" | "expense";
+  category: string;
+  type: "Ingreso" | "Gasto";
+  notes: string;
+};
+
+export type IUpdateTransaction = {
+  transactionId: string;
+  date: Date;
+  amount: number;
+  category: string;
+  type: "Ingreso" | "Gasto";
+  notes: string;
 };

@@ -9,7 +9,7 @@ const RootLayout = () => {
       <Topbar />
       <LeftSidebar />
 
-      <section className="w-full">
+      <section className="w-full md:ml-[270px]">
         <Outlet />
       </section>
 

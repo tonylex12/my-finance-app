@@ -1,17 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useGetRecentTransactions } from "@/lib/react-query/queriesAndMutations";
-import { Models } from "appwrite";
 import LoaderTwo from "@/components/shared/LoaderTwo";
 import TransactionsTable from "@/components/TransactionsTable";
 import Summary from "@/components/Summary";
 import IncomeExpenseChart from "@/components/IncomeExpenseChart";
 
 const Dashboard = () => {
-  const {
-    data: transactions,
-    isPending: isTransactionsLoading,
-    isError: isErrorTransactions,
-  } = useGetRecentTransactions();
+  const { data: transactions, isPending: isTransactionsLoading } =
+    useGetRecentTransactions();
 
   return (
     <div className="w-full">

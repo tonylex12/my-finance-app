@@ -6,6 +6,7 @@ import SignUpForm from "./_auth/forms/SignUpForm";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
 import { Toaster } from "@/components/ui/toaster";
+import EditTransaction from "./_root/pages/EditTransaction";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/incomes" element={<Incomes />} />
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/new-transaction" element={<NewTransaction />} />
+          <Route path="/edit-transaction/:id" element={<EditTransaction />} />
         </Route>
       </Routes>
 

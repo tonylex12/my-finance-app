@@ -20,7 +20,7 @@ const IncomeExpenseChart = ({
       const transactionDate = new Date(transaction.date); // This will correctly parse the ISO date string
       const monthIndex = transactionDate.getUTCMonth(); // Get month index (0-11)
 
-      if (transaction.type === "income") {
+      if (transaction.type === "Ingreso") {
         monthlyData[monthIndex].income += transaction.amount;
       } else {
         monthlyData[monthIndex].expenses += transaction.amount;
@@ -43,8 +43,8 @@ const IncomeExpenseChart = ({
             <BarChart data={data}>
               <XAxis dataKey="month" />
               <YAxis />
-              <Bar dataKey="income" fill="#22c55e" name="Income" />
-              <Bar dataKey="expenses" fill="#ef4444" name="Expenses" />
+              <Bar dataKey="income" fill="#22c55e" name="Ingresos" />
+              <Bar dataKey="expenses" fill="#ef4444" name="Gastos" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

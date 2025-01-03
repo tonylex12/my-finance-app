@@ -7,14 +7,14 @@ const Summary = ({
   transactions: Models.DocumentList<Models.Document>;
 }) => {
   const totalIncome = transactions?.documents.reduce((acc, transaction) => {
-    if (transaction.type === "income") {
+    if (transaction.type === "Ingreso") {
       return acc + transaction.amount;
     }
     return acc;
   }, 0);
 
   const totalExpense = transactions?.documents.reduce((acc, transaction) => {
-    if (transaction.type === "expense") {
+    if (transaction.type === "Gasto") {
       return acc + transaction.amount;
     }
     return acc;

@@ -1,4 +1,4 @@
-import { INewUser } from "@/types";
+import { INewTransaction, INewUser, IUpdateTransaction } from "@/types";
 import { account, appwriteConfig, avatars, databases } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -118,4 +118,67 @@ export async function getRecentTransactions() {
   if (!recentTransactions) throw Error;
 
   return recentTransactions;
+}
+
+export async function createTransaction(transaction: INewTransaction) {
+  try {
+    const newTransaction = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.transactionCollectionId,
+      ID.unique(),
+      {
+        user: transaction.userId,
+        date: transaction.date,
+        amount: transaction.amount,
+        type: transaction.type,
+        category: transaction.category,
+        notes: transaction.notes,
+      }
+    );
+
+    if (!newTransaction) throw Error;
+
+    return newTransaction;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updateTransaction(transaction: IUpdateTransaction) {
+  try {
+    const updatedTransaction = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.transactionCollectionId,
+      transaction.transactionId,
+      {
+        date: transaction.date,
+        amount: transaction.amount,
+        type: transaction.type,
+        category: transaction.category,
+        notes: transaction.notes,
+      }
+    );
+
+    if (!updatedTransaction) throw Error;
+
+    return updatedTransaction;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getTransactionById(transactionId: string) {
+  try {
+    const transaction = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.transactionCollectionId,
+      transactionId
+    );
+
+    if (!transaction) throw Error;
+
+    return transaction;
+  } catch (error) {
+    console.log(error);
+  }
 }
