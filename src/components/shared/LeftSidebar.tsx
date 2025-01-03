@@ -58,7 +58,7 @@ const LeftSidebar = () => {
                 key={link.label}
                 className={`hover:text-primary-500 hover:bg-gray-100 font-bold group ${
                   isActive &&
-                  "text-primary-500 bg-gray-100 border-b border-gray-300 rounded-xl"
+                  "text-primary-500 bg-primary-500/10 border-b border-gray-300 rounded-xl"
                 }`}
               >
                 <NavLink

@@ -14,7 +14,7 @@ const Topbar = () => {
   }, [isSuccess, navigate]);
 
   return (
-    <section className="sticky top-0 z-50 md:hidden w-full border-b border-gray-300">
+    <section className="sticky top-0 z-50 md:hidden w-full border-b border-gray-300 bg-white">
       <div className="flex justify-between items-center py-4 px-5">
         <Link to="/" className="flex gap-3 items-center">
           <p className="text-lg font-bold">Finance App</p>
