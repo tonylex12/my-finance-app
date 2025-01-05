@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createTransaction,
   createUserAccount,
+  deleteTransaction,
+  getAllTransactions,
   getCurrentUser,
   getRecentTransactions,
   getTransactionById,
@@ -34,6 +36,13 @@ export const useGetRecentTransactions = () => {
   return useQuery({
     queryKey: ["transactions"],
     queryFn: getRecentTransactions,
+  });
+};
+
+export const useGetAllTransactions = () => {
+  return useQuery({
+    queryKey: ["transactions"],
+    queryFn: getAllTransactions,
   });
 };
 
@@ -75,5 +84,17 @@ export const useGetTransactionById = (transactionId: string) => {
     queryKey: ["transaction", transactionId],
     queryFn: () => getTransactionById(transactionId),
     enabled: !!transactionId,
+  });
+};
+
+export const useDeleteTransaction = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (transactionId: string) => deleteTransaction(transactionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["transactions"],
+      });
+    },
   });
 };

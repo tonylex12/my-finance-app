@@ -120,6 +120,17 @@ export async function getRecentTransactions() {
   return recentTransactions;
 }
 
+export async function getAllTransactions() {
+  const allTransactions = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.transactionCollectionId
+  );
+
+  if (!allTransactions) throw Error;
+
+  return allTransactions;
+}
+
 export async function createTransaction(transaction: INewTransaction) {
   try {
     const newTransaction = await databases.createDocument(
@@ -178,6 +189,24 @@ export async function getTransactionById(transactionId: string) {
     if (!transaction) throw Error;
 
     return transaction;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteTransaction(transactionId: string) {
+  if (!transactionId) throw Error;
+
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.transactionCollectionId,
+      transactionId
+    );
+
+    if (!statusCode) throw Error;
+
+    return { status: "OK" };
   } catch (error) {
     console.log(error);
   }

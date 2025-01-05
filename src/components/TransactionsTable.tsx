@@ -10,14 +10,25 @@ import {
 import { formatDate, formatTime } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import DialogComponent from "./DialogComponent";
+import { useDeleteTransaction } from "@/lib/react-query/queriesAndMutations";
 
 const TransactionsTable = ({
   transactions,
 }: {
   transactions: Models.DocumentList<Models.Document>;
 }) => {
-  const handleDeletePost = (id: string) => {
-    console.log("delete", id);
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [transactionIdToDelete, setTransactionIdToDelete] = useState<string | null>(null);
+
+  const { mutate: deleteTransaction } = useDeleteTransaction();
+
+  const handleDeleteTransaction = () => {
+    if (transactionIdToDelete) {
+      deleteTransaction(transactionIdToDelete);
+    }
+    setDialogOpen(false)
   };
 
   return (
@@ -84,18 +95,28 @@ const TransactionsTable = ({
                     alt="Editar"
                     width={24}
                     height={24}
-                    className="mr-3"
                   />
                 </Link>
-                <Button onClick={() => handleDeletePost(transaction.$id)}>
+                <Button
+                  onClick={() => {
+                    setTransactionIdToDelete(transaction.$id);
+                    setDialogOpen(true);
+                  }}
+                  className="p-1"
+                >
                   <img
                     src="/assets/icons/delete.svg"
                     alt="Eliminar"
                     width={24}
                     height={24}
-                    className="mr-3"
+                    className="md:ml-2"
                   />
                 </Button>
+                <DialogComponent
+                  open={isDialogOpen}
+                  onOpenChange={() => setDialogOpen(false)}
+                  onConfirm={handleDeleteTransaction}
+                />
               </TableCell>
             </TableRow>
           ))}

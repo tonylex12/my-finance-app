@@ -226,6 +226,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                           Gasto Variable
                         </SelectItem>
                         <SelectItem value="Venta">Venta</SelectItem>
+                        <SelectItem value="Sueldo">Sueldo</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage className="text-red-500" />
@@ -268,7 +269,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                   {(isCreatingTransaction || isUpdatingTransaction) && (
                     <Loader />
                   )}
-                  {action} Post
+                  {action} Transacción
                 </Button>
               </div>
             </form>
