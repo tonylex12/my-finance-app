@@ -24,6 +24,7 @@ import {
 import { es } from "date-fns/locale";
 import { Models } from "appwrite";
 import { useMemo, useState } from "react";
+import MonthlyIncomeChart from '@/components/MonthlyIncomeChart';
 
 type DailyIncome = {
   [date: string]: number;
@@ -162,6 +163,9 @@ const MonthlyIncomeTable = ({
           </Table>
         </CardContent>
       </Card>
+      <div className="w-full max-w-7xl mx-auto py-10">
+        <MonthlyIncomeChart transactions={transactions} currentMonth={currentMonth} />
+      </div>
     </>
   );
 };
