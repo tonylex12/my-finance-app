@@ -118,41 +118,50 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                     <FormLabel className="font-bold mb-2 text-lg">
                       Fecha
                     </FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild className="bg-white">
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={`w-full pl-3 text-left font-normal ${
-                              !field.value && "text-muted-foreground"
-                            }`}
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Selecciona una fecha</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
-                          initialFocus
-                          className="bg-white"
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    {action === "Actualizar" ? (
+                      <span className="block text-muted-foreground">
+                        {field.value
+                          ? format(field.value, "PPP")
+                          : "Sin fecha seleccionada"}
+                      </span>
+                    ) : (
+                      <Popover>
+                        <PopoverTrigger asChild className="bg-white">
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={`w-full pl-3 text-left font-normal ${
+                                !field.value && "text-muted-foreground"
+                              }`}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Selecciona una fecha</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                            className="bg-white"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    )}
                     <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="amount"
