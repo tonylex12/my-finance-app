@@ -20,7 +20,7 @@ const DialogComponent = ({
 }) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogOverlay className="DialogOverlay">
+      <DialogOverlay className="dark:bg-gray-800">
         <DialogContent className="sm:max-w-[425px] DialogContent">
           <DialogHeader>
             <DialogTitle>Confirmar Eliminación</DialogTitle>
