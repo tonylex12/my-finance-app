@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-white text-gray-900 dark:bg-black dark:text-white;
+  }
+}
+
 @layer utilities {
   /* TYPOGRAPHY */
   .h1-bold {
@@ -60,4 +66,3 @@
     @apply text-[10px] font-medium leading-[140%];
   }
 }
-
