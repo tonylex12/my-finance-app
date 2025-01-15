@@ -39,7 +39,7 @@ const IncomeExpenseChart = ({
           <CardTitle className="text-center">Ingresos vs Gastos</CardTitle>
         </CardHeader>
         <CardContent className="pb-4 relative overflow-auto">
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="200%" height={300}>
             <BarChart data={data}>
               <XAxis dataKey="month" />
               <YAxis />

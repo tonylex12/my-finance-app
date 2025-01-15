@@ -1,4 +1,6 @@
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Sun, Moon } from "lucide-react";
 
 import { INavLink } from "@/types";
 import { sidebarLinks } from "@/constants";
@@ -6,8 +8,6 @@ import LoaderTwo from "@/components/shared/LoaderTwo";
 import { Button } from "@/components/ui/button";
 import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
-import { useState, useEffect } from 'react';
-import { Sun, Moon } from 'lucide-react';
 
 const LeftSidebar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -16,10 +16,10 @@ const LeftSidebar = () => {
   const { user, setUser, setIsAuthenticated, isLoading } = useUserContext();
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'dark') {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
       setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
@@ -29,11 +29,11 @@ const LeftSidebar = () => {
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
 
@@ -108,6 +108,17 @@ const LeftSidebar = () => {
       <Button
         variant="ghost"
         className="shad-button_ghost"
+        onClick={toggleDarkMode}
+      >
+        {isDarkMode ? (
+          <Sun className="h-4 w-4" />
+        ) : (
+          <Moon className="h-4 w-4" />
+        )}
+      </Button>
+      <Button
+        variant="ghost"
+        className="shad-button_ghost"
         onClick={(e) => handleSignOut(e)}
       >
         <img
@@ -117,9 +128,6 @@ const LeftSidebar = () => {
           height={24}
         />
         <p className="small-medium lg:base-medium">Logout</p>
-      </Button>
-      <Button variant="ghost" className="shad-button_ghost" onClick={toggleDarkMode}>
-        {isDarkMode ? <Sun className="h-4 w-4"/> : <Moon className="h-4 w-4"/>}
       </Button>
     </nav>
   );
