@@ -106,7 +106,7 @@ const SignUpForm = () => {
               <FormItem className="mx-2">
                 <FormLabel>Nombre</FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
+                  <Input type="text" className="shad-input text-black" {...field} />
                 </FormControl>
                 <FormMessage className="text-rose-600" />
               </FormItem>
@@ -119,7 +119,7 @@ const SignUpForm = () => {
               <FormItem className="mx-2">
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
+                  <Input type="text" className="shad-input text-black" {...field} />
                 </FormControl>
                 <FormMessage className="text-rose-600" />
               </FormItem>
@@ -133,7 +133,7 @@ const SignUpForm = () => {
               <FormItem className="mx-2">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" className="shad-input" {...field} />
+                  <Input type="email" className="shad-input text-black" {...field} />
                 </FormControl>
                 <FormMessage className="text-rose-600" />
               </FormItem>
@@ -147,7 +147,7 @@ const SignUpForm = () => {
               <FormItem className="mx-2">
                 <FormLabel>Contraseña</FormLabel>
                 <FormControl>
-                  <Input type="password" className="shad-input" {...field} />
+                  <Input type="password" className="shad-input text-black" {...field} />
                 </FormControl>
                 <FormMessage className="text-rose-600" />
               </FormItem>

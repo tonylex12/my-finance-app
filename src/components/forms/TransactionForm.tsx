@@ -135,7 +135,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                         Fecha
                       </FormLabel>
                       <Popover>
-                        <PopoverTrigger asChild className="bg-white">
+                        <PopoverTrigger asChild className="bg-white text-black">
                           <FormControl>
                             <Button
                               variant={"outline"}
@@ -148,7 +148,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                               ) : (
                                 <span>Selecciona una fecha</span>
                               )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50 text-black" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -161,7 +161,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                               date > new Date() || date < new Date("1900-01-01")
                             }
                             initialFocus
-                            className="bg-white"
+                            className="bg-white text-black"
                           />
                         </PopoverContent>
                       </Popover>
@@ -184,6 +184,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                         type="number"
                         step="0.01"
                         placeholder="0.00"
+                        className="bg-white text-black"
                         {...field}
                         onChange={(e) => field.onChange(e.target.value)}
                         value={field.value || ""}
@@ -207,11 +208,11 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="bg-white">
+                        <SelectTrigger className="bg-white text-black">
                           <SelectValue placeholder="Selecciona un tipo" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="bg-white">
+                      <SelectContent className="bg-white text-black">
                         <SelectItem value="Ingreso">Ingreso</SelectItem>
                         <SelectItem value="Gasto">Gasto</SelectItem>
                       </SelectContent>
@@ -234,11 +235,11 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="bg-white">
+                        <SelectTrigger className="bg-white text-black">
                           <SelectValue placeholder="Selecciona una categoría" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="bg-white">
+                      <SelectContent className="bg-white text-black">
                         <SelectItem value="Gasto Fijo">Gasto Fijo</SelectItem>
                         <SelectItem value="Gasto Variable">
                           Gasto Variable
@@ -257,12 +258,13 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                 name="notes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-bold mb-2 text-lg">
+                    <FormLabel className="font-bold mb-2 text-lg ">
                       Notas
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Añade notas adicionales aquí"
+                        className="bg-white text-black"
                         {...field}
                       />
                     </FormControl>
