@@ -81,14 +81,14 @@ const LeftSidebar = () => {
             return (
               <li
                 key={link.label}
-                className={`hover:text-primary-500 hover:bg-gray-100 font-bold group ${
+                className={`hover:text-primary-500 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700 font-bold group ${
                   isActive &&
                   "text-primary-500 bg-primary-500/10 border-b border-gray-300 rounded-xl"
                 }`}
               >
                 <NavLink
                   to={link.route}
-                  className="flex gap-4 items-center p-4"
+                  className="flex gap-4 items-center p-4 "
                 >
                   <img
                     src={link.imgURL}
