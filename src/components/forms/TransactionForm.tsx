@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -38,6 +39,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/shared/Loader";
 import { Models } from "appwrite";
+import { useEffect } from "react";
 
 type TransactionFormProps = {
   transaction?: Models.Document;
@@ -67,6 +69,18 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
       notes: transaction ? transaction.notes : "",
     },
   });
+
+  useEffect(() => {
+    if (transaction) {
+      form.reset({
+        date: new Date(transaction.$createdAt),
+        amount: transaction.amount,
+        type: transaction.type,
+        category: transaction.category,
+        notes: transaction.notes,
+      });
+    }
+  }, [transaction, form.reset]);
 
   async function onSubmit(values: z.infer<typeof TransactionValidation>) {
     if (transaction && action === "Actualizar") {

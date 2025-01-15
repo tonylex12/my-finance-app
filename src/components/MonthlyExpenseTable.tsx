@@ -141,20 +141,20 @@ const MonthlyExpenseTable = ({
                         >
                           <div>{format(day, "d")}</div>
                           <div className="text-sm text-red-500 font-bold">
-                            {expense ? `$${expense.toFixed(2)}` : "-"}
+                            {expense ? `S/.${expense.toFixed(2)}` : "-"}
                           </div>
                         </TableCell>
                       );
                     })}
                     <TableCell className="text-center font-semibold text-red-500">
-                      ${weeklyTotal.toFixed(2)}
+                      S/.{weeklyTotal.toFixed(2)}
                     </TableCell>
                   </TableRow>
                 );
               })}
               <TableRow>
                 <TableCell colSpan={9} className="text-right font-bold text-lg">
-                  Total del Mes: ${totalExpense.toFixed(2)}
+                  Total del Mes: S/.{totalExpense.toFixed(2)}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -162,7 +162,10 @@ const MonthlyExpenseTable = ({
         </CardContent>
       </Card>
       <div className="w-full max-w-7xl mx-auto py-10">
-        <MonthlyExpenseChart transactions={transactions} currentMonth={currentMonth} />
+        <MonthlyExpenseChart
+          transactions={transactions}
+          currentMonth={currentMonth}
+        />
       </div>
     </>
   );

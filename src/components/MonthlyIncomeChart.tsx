@@ -74,8 +74,6 @@ const MonthlyIncomeChart = ({
     return weekData;
   });
 
-  console.log("Chart Data:", chartData);
-
   const dayNames = ["LU", "MA", "MI", "JU", "VI", "SÁ", "DO"];
 
   return (

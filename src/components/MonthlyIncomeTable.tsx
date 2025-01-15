@@ -24,7 +24,7 @@ import {
 import { es } from "date-fns/locale";
 import { Models } from "appwrite";
 import { useMemo, useState } from "react";
-import MonthlyIncomeChart from '@/components/MonthlyIncomeChart';
+import MonthlyIncomeChart from "@/components/MonthlyIncomeChart";
 
 type DailyIncome = {
   [date: string]: number;
@@ -143,20 +143,20 @@ const MonthlyIncomeTable = ({
                         >
                           <div>{format(day, "d")}</div>
                           <div className="text-sm text-green-500 font-bold">
-                            {income ? `$${income.toFixed(2)}` : "-"}
+                            {income ? `S/.${income.toFixed(2)}` : "-"}
                           </div>
                         </TableCell>
                       );
                     })}
                     <TableCell className="text-center font-semibold text-green-500">
-                      ${weeklyTotal.toFixed(2)}
+                      S/.{weeklyTotal.toFixed(2)}
                     </TableCell>
                   </TableRow>
                 );
               })}
               <TableRow>
                 <TableCell colSpan={9} className="text-right font-bold text-lg">
-                  Total del Mes: ${totalIncome.toFixed(2)}
+                  Total del Mes: S/.{totalIncome.toFixed(2)}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -164,7 +164,10 @@ const MonthlyIncomeTable = ({
         </CardContent>
       </Card>
       <div className="w-full max-w-7xl mx-auto py-10">
-        <MonthlyIncomeChart transactions={transactions} currentMonth={currentMonth} />
+        <MonthlyIncomeChart
+          transactions={transactions}
+          currentMonth={currentMonth}
+        />
       </div>
     </>
   );
