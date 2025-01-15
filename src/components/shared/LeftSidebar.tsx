@@ -53,7 +53,7 @@ const LeftSidebar = () => {
     <nav className="hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] border-r border-gray-300 fixed h-screen">
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
-          <p className="text-lg font-bold">Finance App</p>
+          <p className="text-lg font-bold mx-auto">Finance App</p>
         </Link>
 
         {isLoading || !user.email ? (
