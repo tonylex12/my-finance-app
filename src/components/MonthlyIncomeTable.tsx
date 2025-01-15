@@ -97,7 +97,7 @@ const MonthlyIncomeTable = ({
         </CardHeader>
         <CardContent>
           <Table>
-            <TableCaption>Tabla de ingresos semanales del mes</TableCaption>
+            <TableCaption>Tabla de ingresos del mes</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px] font-bold">Semana</TableHead>

@@ -52,10 +52,10 @@ const TransactionsTable = ({
           {transactions?.documents.map((transaction: Models.Document) => (
             <TableRow key={transaction.$id}>
               <TableCell className="font-medium">
-                {formatDate(transaction.date)}
+                {formatDate(transaction.$createdAt)}
               </TableCell>
               <TableCell className="font-medium">
-                {formatTime(transaction.date)}
+                {formatTime(transaction.$createdAt)}
               </TableCell>
               <TableCell className="flex justify-between items-center">
                 {transaction.type === "Ingreso" ? (

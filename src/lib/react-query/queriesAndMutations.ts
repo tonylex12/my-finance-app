@@ -1,5 +1,9 @@
 import { INewTransaction, INewUser, IUpdateTransaction } from "@/types";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   createTransaction,
   createUserAccount,
@@ -71,9 +75,9 @@ export const useUpdateTransaction = () => {
   return useMutation({
     mutationFn: (transaction: IUpdateTransaction) =>
       updateTransaction(transaction),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["transactions"],
+        queryKey: ["transactions", data?.$id],
       });
     },
   });

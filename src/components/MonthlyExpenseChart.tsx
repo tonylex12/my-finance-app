@@ -27,16 +27,16 @@ import {
 } from "@/components/ui/chart";
 import { es } from "date-fns/locale";
 
-const MonthlyIncomeChart = ({
+const MonthlyExpenseChart = ({
   transactions,
   currentMonth,
 }: {
   transactions: Models.DocumentList<Models.Document>;
   currentMonth: Date;
 }) => {
-  const dailyIncomes = useMemo(() => {
+  const dailyExpenses = useMemo(() => {
     return transactions.documents
-      .filter((transaction) => transaction.type === "Ingreso")
+      .filter((transaction) => transaction.type === "Gasto")
       .reduce((acc: { [key: string]: number }, { date, amount }) => {
         const dateKey = format(parseISO(date), "yyyy-MM-dd");
         acc[dateKey] = (acc[dateKey] || 0) + amount;
@@ -65,7 +65,7 @@ const MonthlyIncomeChart = ({
       const dateKey = format(day, "yyyy-MM-dd");
       const dayName = format(day, "EEEEEE", { locale: es }).toUpperCase();
       if (isSameMonth(day, currentMonth)) {
-        weekData[dayName] = dailyIncomes[dateKey] || 0;
+        weekData[dayName] = dailyExpenses[dateKey] || 0;
       } else {
         weekData[dayName] = 0;
       }
@@ -83,7 +83,8 @@ const MonthlyIncomeChart = ({
       <Card className="w-auto mx-auto">
         <CardHeader>
           <CardTitle className="text-center">
-            Ingresos Diarios por semana - {currentMonth.toLocaleString("es-ES", { month: "long", year: "numeric" })}
+            Gastos Diarios por semana -{" "}
+            {currentMonth.toLocaleString("es-ES", { month: "long", year: "numeric" })}
           </CardTitle>
         </CardHeader>
         <CardContent className="pb-4 relative overflow-auto flex md:justify-center">
@@ -134,4 +135,4 @@ const MonthlyIncomeChart = ({
     </div>
   );
 };
-export default MonthlyIncomeChart;
+export default MonthlyExpenseChart;

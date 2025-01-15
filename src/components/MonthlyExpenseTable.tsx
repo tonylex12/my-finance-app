@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { es } from "date-fns/locale";
+import MonthlyExpenseChart from "./MonthlyExpenseChart";
 
 type DailyExpense = {
   [date: string]: number;
@@ -94,7 +95,7 @@ const MonthlyExpenseTable = ({
         </CardHeader>
         <CardContent>
           <Table>
-            <TableCaption>Tabla de gastos semanales del mes</TableCaption>
+            <TableCaption>Tabla de gastos del mes</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px] font-bold">Semana</TableHead>
@@ -160,6 +161,9 @@ const MonthlyExpenseTable = ({
           </Table>
         </CardContent>
       </Card>
+      <div className="w-full max-w-7xl mx-auto py-10">
+        <MonthlyExpenseChart transactions={transactions} currentMonth={currentMonth} />
+      </div>
     </>
   );
 };

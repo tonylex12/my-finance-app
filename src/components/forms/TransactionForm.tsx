@@ -60,7 +60,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
   const form = useForm<z.infer<typeof TransactionValidation>>({
     resolver: zodResolver(TransactionValidation),
     defaultValues: {
-      date: new Date(),
+      date: transaction ? new Date(transaction.$createdAt) : new Date(),
       amount: transaction ? transaction.amount : 0,
       type: transaction ? transaction.type : "Ingreso",
       category: transaction ? transaction.category : "Venta",
@@ -70,18 +70,19 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
 
   async function onSubmit(values: z.infer<typeof TransactionValidation>) {
     if (transaction && action === "Actualizar") {
-      const newTrasaction = await updateTransaction({
+      const updatedTrasaction = await updateTransaction({
         ...values,
         transactionId: transaction.$id,
       });
 
-      if (!newTrasaction) {
+      if (!updatedTrasaction) {
         return toast({
           title: "Transacción fallida. Por favor, inténtalo de nuevo",
         });
       }
 
-      return navigate("/");
+      navigate("/");
+      return;
     }
 
     const newTrasaction = await createTransaction({
@@ -110,21 +111,15 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-8 lg:w-1/4 sm:w-full"
             >
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel className="font-bold mb-2 text-lg">
-                      Fecha
-                    </FormLabel>
-                    {action === "Actualizar" ? (
-                      <span className="block text-muted-foreground">
-                        {field.value
-                          ? format(field.value, "PPP")
-                          : "Sin fecha seleccionada"}
-                      </span>
-                    ) : (
+              {action === "Crear" && (
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="font-bold mb-2 text-lg">
+                        Fecha
+                      </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild className="bg-white">
                           <FormControl>
@@ -156,11 +151,11 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                           />
                         </PopoverContent>
                       </Popover>
-                    )}
-                    <FormMessage className="text-red-500" />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage className="text-red-500" />
+                    </FormItem>
+                  )}
+                />
+              )}
 
               <FormField
                 control={form.control}
@@ -278,7 +273,7 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
                   {(isCreatingTransaction || isUpdatingTransaction) && (
                     <Loader />
                   )}
-                  {action} Transacción
+                  {action}
                 </Button>
               </div>
             </form>

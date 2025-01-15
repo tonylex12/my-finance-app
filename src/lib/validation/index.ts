@@ -25,7 +25,7 @@ export const SignInValidation = z.object({
 });
 
 export const TransactionValidation = z.object({
-  date: z.date(),
+  date: z.date({ message: "La fecha es requerida" }),
   amount: z
     .string({ message: "El monto es requerido" })
     .min(1)

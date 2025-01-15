@@ -162,7 +162,6 @@ export async function updateTransaction(transaction: IUpdateTransaction) {
       appwriteConfig.transactionCollectionId,
       transaction.transactionId,
       {
-        date: transaction.date,
         amount: transaction.amount,
         type: transaction.type,
         category: transaction.category,
