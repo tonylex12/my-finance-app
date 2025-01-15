@@ -125,51 +125,49 @@ const TransactionForm = ({ transaction, action }: TransactionFormProps) => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-8 lg:w-1/4 sm:w-full"
             >
-              {action === "Crear" && (
-                <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="font-bold mb-2 text-lg">
-                        Fecha
-                      </FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild className="bg-white text-black">
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={`w-full pl-3 text-left font-normal ${
-                                !field.value && "text-muted-foreground"
-                              }`}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Selecciona una fecha</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50 text-black" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date("1900-01-01")
-                            }
-                            initialFocus
-                            className="bg-white text-black"
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage className="text-red-500" />
-                    </FormItem>
-                  )}
-                />
-              )}
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className="font-bold mb-2 text-lg">
+                      Fecha
+                    </FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild className="bg-white text-black">
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={`w-full pl-3 text-left font-normal ${
+                              !field.value && "text-muted-foreground"
+                            }`}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Selecciona una fecha</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50 text-black" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                          className="bg-white text-black"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 control={form.control}

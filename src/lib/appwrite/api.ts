@@ -112,7 +112,7 @@ export async function getRecentTransactions() {
   const recentTransactions = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.transactionCollectionId,
-    [Query.orderDesc("$createdAt"), Query.limit(20)]
+    [Query.orderDesc("date"), Query.limit(20)]
   );
 
   if (!recentTransactions) throw Error;
@@ -162,6 +162,7 @@ export async function updateTransaction(transaction: IUpdateTransaction) {
       appwriteConfig.transactionCollectionId,
       transaction.transactionId,
       {
+        date: transaction.date,
         amount: transaction.amount,
         type: transaction.type,
         category: transaction.category,

@@ -30,6 +30,7 @@ export type INewTransaction = {
 
 export type IUpdateTransaction = {
   transactionId: string;
+  date: Date;
   amount: number;
   category: string;
   type: "Ingreso" | "Gasto";
