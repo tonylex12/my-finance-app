@@ -4,7 +4,7 @@ import { bottombarLinks } from "@/constants";
 const Bottombar = () => {
   const { pathname } = useLocation();
   return (
-    <section className="bg-white border-t border-gray-300 z-50 flex justify-between items-center w-full sticky bottom-0 rounded-t-[16px] px-5 py-4 md:hidden">
+    <section className="bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 z-50 flex justify-between items-center w-full sticky bottom-0 rounded-t-[16px] px-5 py-4 md:hidden">
       {bottombarLinks.map((link) => {
         const isActive = pathname === link.route;
 
