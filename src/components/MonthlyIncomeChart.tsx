@@ -102,7 +102,7 @@ const MonthlyIncomeChart = ({
                 <XAxis dataKey="name" />
                 <YAxis />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
+                <Legend className="dark:hover:bg-gray-600"/>
                 {dayNames.map((day) => (
                   <Bar
                     key={day}
