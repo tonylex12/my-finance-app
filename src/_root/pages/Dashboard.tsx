@@ -3,6 +3,8 @@ import LoaderTwo from "@/components/shared/LoaderTwo";
 import TransactionsTable from "@/components/TransactionsTable";
 import Summary from "@/components/Summary";
 import IncomeExpenseChart from "@/components/IncomeExpenseChart";
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import TransactionDataTable from "@/components/TransactionsDataTable";
 
 const Dashboard = () => {
   const { data: transactions, isPending: isTransactionsLoading } =
@@ -19,6 +21,18 @@ const Dashboard = () => {
               <Summary transactions={transactions} />
               <IncomeExpenseChart transactions={transactions} />
               <TransactionsTable transactions={transactions} />
+              {/* <Card className="w-full max-w-5xl mx-auto mt-8">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-bold">
+                    Tabla de Transacciones
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {transactions && transactions.documents && (
+                    <TransactionDataTable transactions={transactions} />
+                  )}
+                </CardContent>
+              </Card> */}
             </>
           ) : (
             <p>No hay transacciones recientes</p>

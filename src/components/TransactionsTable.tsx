@@ -14,21 +14,33 @@ import { useState } from "react";
 import DialogComponent from "./DialogComponent";
 import { useDeleteTransaction } from "@/lib/react-query/queriesAndMutations";
 
+const PAGE_SIZE = 10;
+
 const TransactionsTable = ({
   transactions,
 }: {
   transactions: Models.DocumentList<Models.Document>;
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [transactionIdToDelete, setTransactionIdToDelete] = useState<string | null>(null);
+  const [transactionIdToDelete, setTransactionIdToDelete] = useState<
+    string | null
+  >(null);
 
   const { mutate: deleteTransaction } = useDeleteTransaction();
+
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  const currentTransactions = transactions?.documents.slice(
+    startIndex,
+    endIndex
+  );
 
   const handleDeleteTransaction = () => {
     if (transactionIdToDelete) {
       deleteTransaction(transactionIdToDelete);
     }
-    setDialogOpen(false)
+    setDialogOpen(false);
   };
 
   return (
@@ -49,7 +61,7 @@ const TransactionsTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions?.documents.map((transaction: Models.Document) => (
+          {currentTransactions?.map((transaction: Models.Document) => (
             <TableRow key={transaction.$id}>
               <TableCell className="font-medium">
                 {formatDate(transaction.date)}
@@ -122,6 +134,36 @@ const TransactionsTable = ({
           ))}
         </TableBody>
       </Table>
+      <div className="flex justify-between items-center mt-4">
+        <Button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          variant="outline"
+        >
+          Anterior
+        </Button>
+        <span className="mx-4">
+          Página {currentPage} de{" "}
+          {Math.ceil((transactions?.documents.length || 0) / PAGE_SIZE)}
+        </span>
+        <Button
+          onClick={() =>
+            setCurrentPage((prev) =>
+              Math.min(
+                prev + 1,
+                Math.ceil((transactions?.documents.length || 0) / PAGE_SIZE)
+              )
+            )
+          }
+          disabled={
+            currentPage ===
+            Math.ceil((transactions?.documents.length || 0) / PAGE_SIZE)
+          }
+          variant="outline"
+        >
+          Siguiente
+        </Button>
+      </div>
     </>
   );
 };
