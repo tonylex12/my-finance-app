@@ -28,7 +28,7 @@ const Summary = ({
         Resumen de Transacciones
       </h2>
       <div className="grid gap-4 md:grid-cols-3 py-6">
-        <Card>
+        <Card className="border-green-500 bg-green-300/10">
           <CardHeader className="flex flex-row items-center justify-center space-y-0 pb-2">
             <CardTitle className="text-sm text-center font-bold">
               Total de Ingresos
@@ -40,7 +40,7 @@ const Summary = ({
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-red-500 bg-red-300/10">
           <CardHeader className="flex flex-row items-center justify-center space-y-0 pb-2">
             <CardTitle className="text-sm text-center font-bold">
               Total de Gastos
@@ -52,7 +52,7 @@ const Summary = ({
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-gray-500 bg-gray-300/10">
           <CardHeader className="flex flex-row items-center justify-center space-y-0 pb-2">
             <CardTitle className="text-sm text-center font-bold">
               Balance
