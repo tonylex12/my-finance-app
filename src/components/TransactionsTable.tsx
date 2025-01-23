@@ -46,7 +46,7 @@ const TransactionsTable = ({
 
   return (
     <>
-      <h2 className="text-[16px] font-bold md:text-[20px] py-4">
+      <h2 className="text-[16px] font-bold md:text-[20px] pb-6 text-center">
         Transacciones Recientes
       </h2>
       <Card className="w-full max-w-5xl mx-auto mt-6">

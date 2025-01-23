@@ -1,16 +1,3 @@
-import { Models } from "appwrite";
-import {
-  eachDayOfInterval,
-  eachWeekOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  isSameMonth,
-  parseISO,
-  startOfMonth,
-  startOfWeek,
-} from "date-fns";
-import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -23,30 +10,40 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  eachDayOfInterval,
+  eachWeekOfInterval,
+  endOfMonth,
+  endOfWeek,
+  format,
+  isSameMonth,
+  startOfMonth,
+  startOfWeek,
+} from "date-fns";
 import { es } from "date-fns/locale";
-import MonthlyExpenseChart from "./MonthlyExpenseChart";
+import { Models } from "appwrite";
+import { useMemo, useState } from "react";
+import { calculateDailyTransactions, calculateTotal } from "@/lib/utils";
+import MonthlyTransactionChart from "./MonthlyTransactionChart";
+import MonthlyTransactionDetails from "./MonthlyTransactionDetails";
 
-type DailyExpense = {
+type DailyTransaction = {
   [date: string]: number;
 };
 
-const MonthlyExpenseTable = ({
+const MonthlyTransactionTable = ({
   transactions,
+  transactionType,
 }: {
   transactions: Models.DocumentList<Models.Document>;
+  transactionType: "Ingreso" | "Gasto";
 }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  const dailyExpenses: DailyExpense = useMemo(() => {
+  const dailyTransactions: DailyTransaction = useMemo(() => {
     if (!transactions) return {};
-    return transactions.documents
-      .filter((transaction) => transaction.type === "Gasto")
-      .reduce((acc: DailyExpense, { date, amount }) => {
-        const dateKey = format(parseISO(date), "yyyy-MM-dd");
-        acc[dateKey] = (acc[dateKey] || 0) + amount;
-        return acc;
-      }, {});
-  }, [transactions]);
+    return calculateDailyTransactions(transactions, transactionType);
+  }, [transactions, transactionType]);
 
   const weeks = eachWeekOfInterval(
     {
@@ -56,15 +53,9 @@ const MonthlyExpenseTable = ({
     { weekStartsOn: 1 } // Semana comienza el lunes
   );
 
-  const totalExpense = useMemo(() => {
-    return Object.entries(dailyExpenses).reduce((sum, [date, amount]) => {
-      const expenseDate = parseISO(date);
-      if (isSameMonth(expenseDate, currentMonth)) {
-        return sum + amount;
-      }
-      return sum;
-    }, 0);
-  }, [dailyExpenses, currentMonth]);
+  const totalAmount = useMemo(() => {
+    return calculateTotal(dailyTransactions, currentMonth);
+  }, [dailyTransactions, currentMonth]);
 
   const prevMonth = () => {
     setCurrentMonth(
@@ -77,12 +68,14 @@ const MonthlyExpenseTable = ({
       (prevDate) => new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1)
     );
   };
+
   return (
     <>
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-2xl font-bold">
-            Gastos del Mes: {format(currentMonth, "MMMM yyyy", { locale: es })}
+            {transactionType === "Ingreso" ? "Ingresos" : "Gastos"} del Mes:{" "}
+            {format(currentMonth, "MMMM yyyy", { locale: es })}
           </CardTitle>
           <div className="flex items-center space-x-2">
             <Button variant="outline" size="icon" onClick={prevMonth}>
@@ -95,7 +88,10 @@ const MonthlyExpenseTable = ({
         </CardHeader>
         <CardContent>
           <Table>
-            <TableCaption>Tabla de gastos del mes</TableCaption>
+            <TableCaption>
+              Tabla de {transactionType === "Ingreso" ? "ingresos" : "gastos"}{" "}
+              del mes
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px] font-bold">Semana</TableHead>
@@ -126,9 +122,9 @@ const MonthlyExpenseTable = ({
                     </TableCell>
                     {weekDays.map((day) => {
                       const dateKey = format(day, "yyyy-MM-dd");
-                      const expense = dailyExpenses[dateKey] || 0;
+                      const amount = dailyTransactions[dateKey] || 0;
                       weeklyTotal += isSameMonth(day, currentMonth)
-                        ? expense
+                        ? amount
                         : 0;
                       return (
                         <TableCell
@@ -140,13 +136,25 @@ const MonthlyExpenseTable = ({
                           }`}
                         >
                           <div>{format(day, "d")}</div>
-                          <div className="text-sm text-red-500 font-bold">
-                            {expense ? `S/.${expense.toFixed(2)}` : "-"}
+                          <div
+                            className={`text-center font-semibold ${
+                              transactionType === "Ingreso"
+                                ? "text-green-500"
+                                : "text-red-500"
+                            }`}
+                          >
+                            {amount ? `S/.${amount.toFixed(2)}` : "-"}
                           </div>
                         </TableCell>
                       );
                     })}
-                    <TableCell className="text-center font-semibold text-red-500">
+                    <TableCell
+                      className={`text-center font-semibold ${
+                        transactionType === "Ingreso"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
                       S/.{weeklyTotal.toFixed(2)}
                     </TableCell>
                   </TableRow>
@@ -154,7 +162,7 @@ const MonthlyExpenseTable = ({
               })}
               <TableRow>
                 <TableCell colSpan={9} className="text-right font-bold text-lg">
-                  Total del Mes: S/.{totalExpense.toFixed(2)}
+                  Total del Mes: S/.{totalAmount.toFixed(2)}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -162,13 +170,24 @@ const MonthlyExpenseTable = ({
         </CardContent>
       </Card>
       <div className="w-full max-w-7xl mx-auto py-10">
-        <MonthlyExpenseChart
+        <MonthlyTransactionChart
           transactions={transactions}
           currentMonth={currentMonth}
+          title={`${
+            transactionType === "Ingreso" ? "Ingresos" : "Gastos"
+          } Diarios por semana`}
+          transactionType={transactionType}
+        />
+      </div>
+      <div className="w-full max-w-7xl mx-auto py-10">
+        <MonthlyTransactionDetails
+          transactions={transactions}
+          currentMonth={currentMonth}
+          transactionType={transactionType}
         />
       </div>
     </>
   );
 };
 
-export default MonthlyExpenseTable;
+export default MonthlyTransactionTable;

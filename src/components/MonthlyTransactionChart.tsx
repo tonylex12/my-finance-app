@@ -1,15 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Models } from "appwrite";
-import {
-  eachDayOfInterval,
-  eachWeekOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  isSameMonth,
-  parseISO,
-  startOfMonth,
-  startOfWeek,
-} from "date-fns";
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -25,54 +15,24 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { es } from "date-fns/locale";
+import { calculateDailyTransactions, generateChartData } from "@/lib/utils";
 
-const MonthlyIncomeChart = ({
+const MonthlyTransactionChart = ({
   transactions,
   currentMonth,
+  title,
+  transactionType,
 }: {
   transactions: Models.DocumentList<Models.Document>;
   currentMonth: Date;
+  title: string;
+  transactionType: "Ingreso" | "Gasto";
 }) => {
-  const dailyIncomes = useMemo(() => {
-    return transactions.documents
-      .filter((transaction) => transaction.type === "Ingreso")
-      .reduce((acc: { [key: string]: number }, { date, amount }) => {
-        const dateKey = format(parseISO(date), "yyyy-MM-dd");
-        acc[dateKey] = (acc[dateKey] || 0) + amount;
-        return acc;
-      }, {});
+  const dailyTransactions = useMemo(() => {
+    return calculateDailyTransactions(transactions, transactionType);
   }, [transactions]);
 
-  const weeks = eachWeekOfInterval(
-    {
-      start: startOfMonth(currentMonth),
-      end: endOfMonth(currentMonth),
-    },
-    { weekStartsOn: 1 }
-  );
-
-  const chartData = weeks.map((week, weekIndex) => {
-    const weekDays = eachDayOfInterval({
-      start: startOfWeek(week, { weekStartsOn: 1 }),
-      end: endOfWeek(week, { weekStartsOn: 1 }),
-    });
-    const weekData: { [key: string]: number | string } = {
-      name: `Semana ${weekIndex + 1}`,
-    };
-
-    weekDays.forEach((day) => {
-      const dateKey = format(day, "yyyy-MM-dd");
-      const dayName = format(day, "EEEEEE", { locale: es }).toUpperCase();
-      if (isSameMonth(day, currentMonth)) {
-        weekData[dayName] = dailyIncomes[dateKey] || 0;
-      } else {
-        weekData[dayName] = 0;
-      }
-    });
-
-    return weekData;
-  });
+  const chartData = generateChartData(currentMonth, dailyTransactions);
 
   const dayNames = ["LU", "MA", "MI", "JU", "VI", "SÁ", "DO"];
 
@@ -81,7 +41,11 @@ const MonthlyIncomeChart = ({
       <Card className="w-auto mx-auto">
         <CardHeader>
           <CardTitle className="text-center">
-            Ingresos Diarios por semana - {currentMonth.toLocaleString("es-ES", { month: "long", year: "numeric" })}
+            {title} -{" "}
+            {currentMonth.toLocaleString("es-ES", {
+              month: "long",
+              year: "numeric",
+            })}
           </CardTitle>
         </CardHeader>
         <CardContent className="pb-4 relative overflow-auto flex md:justify-center">
@@ -102,7 +66,7 @@ const MonthlyIncomeChart = ({
                 <XAxis dataKey="name" />
                 <YAxis />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend className="dark:hover:bg-gray-600"/>
+                <Legend className="dark:hover:bg-gray-600" />
                 {dayNames.map((day) => (
                   <Bar
                     key={day}
@@ -132,4 +96,5 @@ const MonthlyIncomeChart = ({
     </div>
   );
 };
-export default MonthlyIncomeChart;
+
+export default MonthlyTransactionChart;

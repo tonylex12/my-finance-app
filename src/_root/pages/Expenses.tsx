@@ -1,6 +1,6 @@
 import { useGetAllTransactions } from "@/lib/react-query/queriesAndMutations";
 import LoaderTwo from "@/components/shared/LoaderTwo";
-import MonthlyExpenseTable from "@/components/MonthlyExpenseTable";
+import MonthlyTransactionTable from "@/components/MonthlyTransactionTable";
 
 const Expenses = () => {
   const { data: transactions, isPending: isTransactionsLoading } =
@@ -17,7 +17,10 @@ const Expenses = () => {
               <h2 className="text-[16px] font-bold md:text-[20px] mb-10">
                 Resumen de Gastos
               </h2>
-              <MonthlyExpenseTable transactions={transactions} />
+              <MonthlyTransactionTable
+                transactions={transactions}
+                transactionType="Gasto"
+              />
             </>
           ) : (
             <p>No hay transacciones recientes</p>
